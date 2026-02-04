@@ -6,7 +6,7 @@ export default function HomePage() {
         Visualizador de precios y videos
       </p>
       <p className="mt-6 text-sm text-zinc-400">
-        Rutas públicas: <a href="/productos" className="text-amber-600 hover:underline">/productos</a> | /videos
+        Rutas públicas: <a href="/productos" className="text-amber-600 hover:underline">/productos</a> | <a href="/productosv2" className="text-amber-600 hover:underline">/productosv2</a> | /videos
       </p>
       <a
         href="/admin"

@@ -1,6 +1,6 @@
 "use client";
 
-/* Pantalla de productos para TV - scale-to-fit para cualquier resolución */
+/* Versión v2 - Cajas oscuras, scale-to-fit para TV */
 
 import { useEffect, useState } from "react";
 import { motion } from "motion/react";
@@ -29,7 +29,7 @@ const products: Product[] = [
   { id: 14, name: "Leche Descremada 1L", price: "$26.00" },
 ];
 
-export default function ProductosDisplayPage() {
+export default function ProductosV2Page() {
   const [currentTime, setCurrentTime] = useState(new Date());
   const [activeProductIndex, setActiveProductIndex] = useState(0);
 
@@ -156,7 +156,7 @@ export default function ProductosDisplayPage() {
           </h2>
         </motion.div>
 
-        {/* Grid de productos en dos columnas */}
+        {/* Grid de productos - v2: cajas oscuras con fondo negro/60 */}
         <div className="flex-1 overflow-hidden px-10 pb-3">
           <div className="mx-auto grid h-full max-w-6xl grid-cols-2 gap-x-10 gap-y-2">
             {/* Columna 1 */}
@@ -169,7 +169,7 @@ export default function ProductosDisplayPage() {
               {column1.map((product, index) => (
                 <motion.div
                   key={product.id}
-                  className="flex items-center justify-between rounded-xl border-2 border-yellow-400/30 bg-white/10 px-4 py-2 backdrop-blur-sm transition-all"
+                  className="flex items-center justify-between rounded-xl border-2 border-yellow-400/30 bg-black/60 px-4 py-2 shadow-lg backdrop-blur-md transition-all"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{
                     opacity: 1,
@@ -182,7 +182,7 @@ export default function ProductosDisplayPage() {
                   }}
                   transition={{ duration: 0.5, delay: 0.8 + index * 0.1 }}
                 >
-                  <span className="text-xl font-bold text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+                  <span className="text-xl font-bold text-white drop-shadow-[0_4px_6px_rgba(0,0,0,1)]">
                     {product.name}
                   </span>
                   <motion.span
@@ -212,7 +212,7 @@ export default function ProductosDisplayPage() {
                 return (
                   <motion.div
                     key={product.id}
-                    className="flex items-center justify-between rounded-xl border-2 border-yellow-400/30 bg-white/10 px-4 py-2 backdrop-blur-sm transition-all"
+                    className="flex items-center justify-between rounded-xl border-2 border-yellow-400/30 bg-black/60 px-4 py-2 shadow-lg backdrop-blur-md transition-all"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{
                       opacity: 1,
@@ -225,7 +225,7 @@ export default function ProductosDisplayPage() {
                     }}
                     transition={{ duration: 0.5, delay: 0.8 + index * 0.1 }}
                   >
-                    <span className="text-xl font-bold text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+                    <span className="text-xl font-bold text-white drop-shadow-[0_4px_6px_rgba(0,0,0,1)]">
                       {product.name}
                     </span>
                     <motion.span

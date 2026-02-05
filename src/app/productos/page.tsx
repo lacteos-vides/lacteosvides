@@ -146,7 +146,7 @@ export default function ProductosDisplayPage() {
 
         {/* Título de menú */}
         <motion.div
-          className="mb-3 text-center"
+          className="mb-6 text-center"
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.5 }}
@@ -182,11 +182,11 @@ export default function ProductosDisplayPage() {
                   }}
                   transition={{ duration: 0.5, delay: 0.8 + index * 0.1 }}
                 >
-                  <span className="text-2xl font-bold text-white text-[36px] drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+                  <span className="text-xl font-bold text-white text-[40px] drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
                     {product.name}
                   </span>
                   <motion.span
-                    className="text-3xl font-black text-yellow-300 drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)]"
+                    className="text-3xl font-black text-yellow-300 text-[36px]  drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)]"
                     animate={{ scale: [1, 1.1, 1] }}
                     transition={{
                       duration: 2,
@@ -225,7 +225,7 @@ export default function ProductosDisplayPage() {
                     }}
                     transition={{ duration: 0.5, delay: 0.8 + index * 0.1 }}
                   >
-                    <span className="text-2xl font-bold text-white text-[36px] drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+                    <span className="text-xl font-bold text-white text-[40px] drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
                       {product.name}
                     </span>
                     <motion.span

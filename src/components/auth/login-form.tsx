@@ -39,8 +39,18 @@ export function LoginForm() {
 
       router.push(redirectTo);
       router.refresh();
-    } catch {
-      setError("Ocurrió un error. Intenta de nuevo.");
+    } catch (err) {
+      const message =
+        err instanceof Error && "cause" in err
+          ? String((err as { cause?: { code?: string } }).cause?.code) === "EAI_AGAIN"
+            ? "No se pudo conectar con el servidor. Revisa tu conexión a internet o DNS."
+            : err.message
+          : "Ocurrió un error. Intenta de nuevo.";
+      setError(
+        message.includes("fetch") || message.includes("Failed")
+          ? "No se pudo conectar con el servidor. Revisa tu conexión."
+          : message
+      );
       setLoading(false);
     }
   }

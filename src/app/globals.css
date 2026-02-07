@@ -155,6 +155,8 @@ body {
 
 /* Product card: highlight automático tipo hover, uno por uno */
 .product-card-highlight {
+  transform: translateY(0) scale(1);
+  transform-origin: center;
   transition:
     transform 0.4s ease-out,
     border-color 0.4s ease-out,
@@ -162,7 +164,7 @@ body {
     background-color 0.4s ease-out;
 }
 .product-card-highlight[data-active="true"] {
-  transform: scale(1.05);
+  transform: translateY(0) scale(1.08);
   border-color: rgba(250, 204, 21, 0.9);
   box-shadow: 0 4px 24px rgba(251, 191, 36, 0.35);
   background-color: rgba(255, 255, 255, 0.25);

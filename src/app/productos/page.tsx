@@ -105,8 +105,8 @@ export default function ProductosDisplayPage() {
             </h2>
           </div>
 
-          {/* Grid de productos */}
-          <div className="flex-1 overflow-hidden px-8 pb-3">
+          {/* Grid de productos - pt-4 para que el zoom del primer producto no se corte arriba */}
+          <div className="flex-1 overflow-hidden px-8 pb-3 pt-4">
             <div className="mx-auto grid h-full w-full max-w-[1700px] grid-cols-2 gap-x-16 gap-y-4">
               <div className="animate-enter-slide-left space-y-3">
                 {column1.map((product, index) => (

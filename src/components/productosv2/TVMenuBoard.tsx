@@ -146,8 +146,11 @@ export function TVMenuBoard() {
                 className="inline-block"
               >
                 <h2
-                  className="mb-2 text-5xl tracking-wide text-amber-900 drop-shadow-sm lg:text-6xl"
-                  style={{ fontFamily: "Impact, sans-serif" }}
+                  className="mb-2 text-5xl font-bold tracking-wide drop-shadow-sm lg:text-6xl"
+                  style={{
+                    fontFamily: "var(--font-display), Impact, sans-serif",
+                    color: "#78350f",
+                  }}
                 >
                   MENÚ DE PRODUCTOS
                 </h2>
@@ -176,8 +179,11 @@ export function TVMenuBoard() {
                         {/* Category Header */}
                         <div className="mb-4 relative">
                           <h3
-                            className="border-l-8 border-yellow-500 pl-4 text-3xl text-amber-800 lg:text-5xl"
-                            style={{ fontFamily: "Impact, sans-serif" }}
+                            className="border-l-8 border-yellow-500 pl-4 text-3xl font-bold lg:text-5xl"
+                            style={{
+                              fontFamily: "var(--font-display), Impact, sans-serif",
+                              color: "#78350f",
+                            }}
                           >
                             {column.title}
                           </h3>
@@ -221,12 +227,11 @@ export function TVMenuBoard() {
 
                                 <div className="flex items-center gap-2">
                                   <span
-                                    className={`text-4xl lg:text-5xl ${
-                                      isActive
-                                        ? "text-amber-700"
-                                        : "text-yellow-600"
-                                    }`}
-                                    style={{ fontFamily: "Impact, sans-serif" }}
+                                    className="text-4xl font-bold lg:text-5xl"
+                                    style={{
+                                      fontFamily: "var(--font-display), Impact, sans-serif",
+                                      color: isActive ? "#b45309" : "#ca8a04",
+                                    }}
                                   >
                                     {product.price}
                                   </span>

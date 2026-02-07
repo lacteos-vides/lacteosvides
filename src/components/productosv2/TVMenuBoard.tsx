@@ -49,6 +49,7 @@ const pages: MenuPage[] = [
           { name: "CREMA ÁCIDA", price: "$3.49" },
           { name: "MANTEQUILLA", price: "$4.99" },
           { name: "JOCOQUE", price: "$3.79" },
+          { name: "CREMA PARA BATIR", price: "$4.49" },
         ],
       },
     ],
@@ -66,6 +67,7 @@ const pages: MenuPage[] = [
           { name: "LICUADO DE PLÁTANO", price: "$4.00" },
           { name: "AGUA FRESCA", price: "$2.00" },
           { name: "JUGO DE MANGO", price: "$3.75" },
+          { name: "HORCHATA", price: "$3.25" },
         ],
       },
       {

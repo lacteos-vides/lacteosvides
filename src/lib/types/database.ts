@@ -28,3 +28,12 @@ export type Video = {
   order_index: number;
   created_at: string;
 };
+
+export type GalleryItem = {
+  id: string;
+  image_url: string;
+  product: string;
+  price: string;
+  order_index: number;
+  created_at: string;
+};

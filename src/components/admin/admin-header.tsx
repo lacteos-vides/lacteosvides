@@ -8,6 +8,7 @@ import {
   FolderOpen,
   Package,
   Video,
+  Images,
   LogOut,
   Menu,
   X,
@@ -17,6 +18,7 @@ const navLinks = [
   { href: "/admin", icon: LayoutDashboard, label: "Inicio" },
   { href: "/admin/categorias", icon: FolderOpen, label: "Categorías" },
   { href: "/admin/productos", icon: Package, label: "Productos" },
+  { href: "/admin/galeria", icon: Images, label: "Galería" },
   { href: "/admin/videos", icon: Video, label: "Videos" },
 ];
 

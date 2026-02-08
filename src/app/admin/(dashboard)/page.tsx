@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { FolderOpen, Package, Video, ArrowRight } from "lucide-react";
+import { FolderOpen, Package, Images, Video, ArrowRight } from "lucide-react";
 
 export default function AdminDashboardPage() {
   return (
@@ -9,7 +9,7 @@ export default function AdminDashboardPage() {
         Gestiona categorías, productos y videos desde el panel de administración.
       </p>
 
-      <div className="mt-8 grid gap-6 sm:grid-cols-3">
+      <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
         <Link
           href="/admin/categorias"
           className="group flex cursor-pointer items-center gap-4 rounded-xl border border-slate-200 bg-white p-6 shadow-sm transition hover:border-amber-200 hover:shadow-md"
@@ -37,6 +37,22 @@ export default function AdminDashboardPage() {
             <h3 className="font-semibold text-slate-900">Productos</h3>
             <p className="text-sm text-slate-500">
               Crear, editar y eliminar productos
+            </p>
+          </div>
+          <ArrowRight className="h-5 w-5 text-slate-400 group-hover:text-amber-500" />
+        </Link>
+
+        <Link
+          href="/admin/galeria"
+          className="group flex cursor-pointer items-center gap-4 rounded-xl border border-slate-200 bg-white p-6 shadow-sm transition hover:border-amber-200 hover:shadow-md"
+        >
+          <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-amber-100 text-amber-600 group-hover:bg-amber-200">
+            <Images className="h-6 w-6" />
+          </div>
+          <div className="flex-1">
+            <h3 className="font-semibold text-slate-900">Galería</h3>
+            <p className="text-sm text-slate-500">
+              Imágenes y promociones para carrusel
             </p>
           </div>
           <ArrowRight className="h-5 w-5 text-slate-400 group-hover:text-amber-500" />

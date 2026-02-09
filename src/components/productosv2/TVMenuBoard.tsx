@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "motion/react";
 
 interface Product {
@@ -22,78 +22,25 @@ const getItemsInPage = (page: MenuPage) => {
   return page.columns.flatMap((col) => col.items);
 };
 
-const pages: MenuPage[] = [
-  {
-    id: 1,
-    columns: [
-      {
-        title: "QUESOS",
-        items: [
-          { name: "QUESO FRESCO", price: "$4.99" },
-          { name: "QUESO OAXACA", price: "$5.99" },
-          { name: "QUESO PANELA", price: "$4.49" },
-          { name: "QUESO AÑEJO", price: "$7.99" },
-          { name: "QUESO MANCHEGO", price: "$8.49" },
-          { name: "REQUESÓN", price: "$3.99" },
-          { name: "QUESO CREMA", price: "$3.49" },
-        ],
-      },
-      {
-        title: "LECHE Y DERIVADOS",
-        items: [
-          { name: "LECHE ENTERA", price: "$2.49" },
-          { name: "LECHE DESLACTOSADA", price: "$2.99" },
-          { name: "YOGURT NATURAL", price: "$3.99" },
-          { name: "YOGURT GRIEGO", price: "$4.49" },
-          { name: "CREMA ÁCIDA", price: "$3.49" },
-          { name: "MANTEQUILLA", price: "$4.99" },
-          { name: "JOCOQUE", price: "$3.79" },
-        ],
-      },
-    ],
-  },
-  {
-    id: 2,
-    columns: [
-      {
-        title: "BEBIDAS Y JUGOS",
-        items: [
-          { name: "JUGO DE NARANJA", price: "$3.50" },
-          { name: "JUGO VERDE", price: "$3.99" },
-          { name: "CHOCOLATE CALIENTE", price: "$2.99" },
-          { name: "LICUADO DE FRESA", price: "$4.50" },
-          { name: "LICUADO DE PLÁTANO", price: "$4.00" },
-          { name: "AGUA FRESCA", price: "$2.00" },
-          { name: "JUGO DE MANGO", price: "$3.75" },
-        ],
-      },
-      {
-        title: "POSTRES Y OTROS",
-        items: [
-          { name: "ARROZ CON LECHE", price: "$3.00" },
-          { name: "FLAN NAPOLITANO", price: "$3.50" },
-          { name: "GELATINA DE LECHE", price: "$2.50" },
-          { name: "NATILLA", price: "$2.99" },
-          { name: "PASTEL DE QUESO", price: "$5.00" },
-          { name: "CHONGOS ZAMORANOS", price: "$4.50" },
-          { name: "DULCE DE LECHE", price: "$3.99" },
-        ],
-      },
-    ],
-  },
-];
+interface TVMenuBoardProps {
+  initialPages: MenuPage[];
+}
 
-export function TVMenuBoard() {
+export function TVMenuBoard({ initialPages }: TVMenuBoardProps) {
+  const pages = useMemo(() => initialPages, [initialPages]);
   const [state, setState] = useState({ pageIndex: 0, highlightIndex: 0 });
   const { pageIndex, highlightIndex } = state;
 
-  const currentPage = pages[pageIndex];
-  const totalItemsOnPage = getItemsInPage(currentPage).length;
+  const currentPage = pages[pageIndex] ?? pages[0];
+  const totalItemsOnPage = currentPage ? getItemsInPage(currentPage).length : 0;
 
   useEffect(() => {
+    if (pages.length === 0) return;
     const interval = setInterval(() => {
       setState((s) => {
-        const total = getItemsInPage(pages[s.pageIndex]).length;
+        const page = pages[s.pageIndex];
+        if (!page) return s;
+        const total = getItemsInPage(page).length;
         const next = s.highlightIndex + 1;
 
         if (next >= total) {
@@ -107,7 +54,15 @@ export function TVMenuBoard() {
     }, 2000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [pages]);
+
+  if (!currentPage || currentPage.columns.length === 0) {
+    return (
+      <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-amber-50 via-yellow-50 to-amber-100 font-sans">
+        <p className="text-xl text-amber-800">No hay productos disponibles</p>
+      </div>
+    );
+  }
 
   return (
     <div className="flex h-full w-full overflow-hidden bg-gradient-to-br from-amber-50 via-yellow-50 to-amber-100 font-sans">
@@ -128,7 +83,7 @@ export function TVMenuBoard() {
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-yellow-900/40 to-transparent mix-blend-multiply" />
         </div>
 
-        {/* Main Content Area - márgenes laterales mínimos, cards más anchas */}
+        {/* Main Content Area */}
         <div className="relative flex flex-1 flex-col overflow-hidden px-2 py-4 lg:px-3 lg:py-6">
           <div className="absolute -translate-y-1/2 translate-x-1/2 right-0 top-0 h-64 w-64 rounded-full bg-yellow-300 opacity-30 blur-[100px]" />
           <div className="absolute bottom-0 left-20 h-96 w-96 translate-y-1/2 rounded-full bg-amber-200 opacity-40 blur-[120px]" />
@@ -154,14 +109,14 @@ export function TVMenuBoard() {
               </motion.div>
             </div>
 
-            {/* Dynamic Page Content */}
+            {/* Dynamic Page Content - fade in/out al cambiar de categorías */}
             <AnimatePresence mode="wait">
               <motion.div
                 key={currentPage.id}
-                initial={{ opacity: 0, x: 50, filter: "blur(10px)" }}
-                animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
-                exit={{ opacity: 0, x: -50, filter: "blur(10px)" }}
-                transition={{ duration: 0.8, ease: "circOut" }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.6, ease: "easeInOut" }}
                 className="grid flex-1 grid-cols-2 gap-3 lg:gap-4"
               >
                 {currentPage.columns.map((column, colIndex) => {
@@ -170,7 +125,7 @@ export function TVMenuBoard() {
                     .reduce((acc, col) => acc + col.items.length, 0);
 
                   return (
-                    <div key={column.title} className="flex h-full flex-col">
+                    <div key={`${currentPage.id}-${column.title}`} className="flex h-full flex-col">
                       <div className="flex h-full flex-col rounded-3xl border border-white/50 bg-white/70 p-5 shadow-xl backdrop-blur-md lg:p-6">
                         {/* Category Header */}
                         <div className="mb-4 relative">

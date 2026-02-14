@@ -1,6 +1,6 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { validateProduct, type ProductFormErrors } from "@/lib/validations/product";
 
@@ -47,6 +47,7 @@ export async function createProduct(
   }
 
   revalidatePath("/admin/productos");
+  revalidateTag("productos-tv", { expire: 0 });
   return { ok: true };
 }
 
@@ -94,6 +95,7 @@ export async function updateProduct(
   }
 
   revalidatePath("/admin/productos");
+  revalidateTag("productos-tv", { expire: 0 });
   return { ok: true };
 }
 
@@ -106,6 +108,7 @@ export async function deleteProduct(id: string): Promise<{ ok: boolean; error?: 
   }
 
   revalidatePath("/admin/productos");
+  revalidateTag("productos-tv", { expire: 0 });
   return { ok: true };
 }
 
@@ -123,5 +126,6 @@ export async function reorderProducts(
     if (error) return { ok: false, error: error.message };
   }
   revalidatePath("/admin/productos");
+  revalidateTag("productos-tv", { expire: 0 });
   return { ok: true };
 }

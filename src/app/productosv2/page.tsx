@@ -1,7 +1,11 @@
-import { createClient } from "@/lib/supabase/server";
+import { unstable_cache } from "next/cache";
+import { createPublicClient } from "@/lib/supabase/public";
 import { ScaleToFit } from "@/components/productos/scale-to-fit";
 import { TVMenuBoard } from "@/components/productosv2/TVMenuBoard";
 import type { ProductWithCategory } from "@/lib/types/database";
+
+const CACHE_TAG = "productos-tv";
+const REVALIDATE_SECONDS = 86400; // 24 horas
 
 /** Agrupa productos por categoría y forma páginas de máximo 2 categorías */
 function buildPagesFromProducts(rows: ProductWithCategory[]) {
@@ -39,8 +43,8 @@ function buildPagesFromProducts(rows: ProductWithCategory[]) {
   return pages.length > 0 ? pages : [{ id: 1, columns: [] }];
 }
 
-export default async function ProductosV2Page() {
-  const supabase = await createClient();
+async function fetchProducts(): Promise<ProductWithCategory[]> {
+  const supabase = createPublicClient();
   const { data } = await supabase
     .from("products_with_category")
     .select("id, name, price, order_index, category_id, category_name, category_order, estado")
@@ -48,8 +52,16 @@ export default async function ProductosV2Page() {
     .order("category_order", { ascending: true })
     .order("order_index", { ascending: true })
     .order("name", { ascending: true });
+  return (data ?? []) as ProductWithCategory[];
+}
 
-  const rows = (data ?? []) as ProductWithCategory[];
+export default async function ProductosV2Page() {
+  const getCached = unstable_cache(fetchProducts, [CACHE_TAG], {
+    revalidate: REVALIDATE_SECONDS,
+    tags: [CACHE_TAG],
+  });
+
+  const rows = await getCached();
   const pages = buildPagesFromProducts(rows);
 
   return (

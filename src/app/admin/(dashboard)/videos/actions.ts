@@ -1,6 +1,6 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { validateVideo, type VideoFormErrors } from "@/lib/validations/video";
 
@@ -62,6 +62,7 @@ export async function createVideo(
   }
 
   revalidatePath("/admin/videos");
+  revalidateTag("videos-tv", { expire: 0 });
   return { ok: true };
 }
 
@@ -92,6 +93,7 @@ export async function saveVideoRecord(
   if (error) return { ok: false, errors: { name: error.message } };
 
   revalidatePath("/admin/videos");
+  revalidateTag("videos-tv", { expire: 0 });
   return { ok: true };
 }
 
@@ -124,6 +126,7 @@ export async function updateVideo(
 
   revalidatePath("/admin/videos");
   revalidatePath(`/admin/videos/${id}/edit`);
+  revalidateTag("videos-tv", { expire: 0 });
   return { ok: true };
 }
 
@@ -173,6 +176,7 @@ export async function updateVideoWithUrl(
 
   revalidatePath("/admin/videos");
   revalidatePath(`/admin/videos/${id}/edit`);
+  revalidateTag("videos-tv", { expire: 0 });
   return { ok: true };
 }
 
@@ -194,6 +198,7 @@ export async function deleteVideo(id: string): Promise<{ ok: boolean; error?: st
   if (error) return { ok: false, error: error.message };
 
   revalidatePath("/admin/videos");
+  revalidateTag("videos-tv", { expire: 0 });
   return { ok: true };
 }
 
@@ -206,5 +211,6 @@ export async function reorderVideos(
     if (error) return { ok: false, error: error.message };
   }
   revalidatePath("/admin/videos");
+  revalidateTag("videos-tv", { expire: 0 });
   return { ok: true };
 }

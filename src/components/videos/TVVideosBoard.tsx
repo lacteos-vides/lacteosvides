@@ -1,20 +1,24 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { motion, AnimatePresence } from "motion/react";
+import type { Video } from "@/lib/types/database";
 
-interface VideoItem {
-  src: string;
-  text: string;
+interface TVVideosBoardProps {
+  initialVideos: Video[];
 }
 
-const VIDEO_ITEMS: VideoItem[] = [
-  { src: "/videos/vid1.mp4", text: "La mejor calidad, al mejor precio" },
-  { src: "/videos/vid2.mp4", text: "Lácteos Vides, la mejor calidad" },
-  { src: "/videos/vid3.mp4", text: "Lácteos Vides, Tu mejor opción" },
-];
+export function TVVideosBoard({ initialVideos }: TVVideosBoardProps) {
+  const items = useMemo(
+    () =>
+      initialVideos.map((v) => ({
+        id: v.id,
+        src: v.file_url,
+        text: v.name,
+      })),
+    [initialVideos]
+  );
 
-export function TVVideosBoard() {
   const [index, setIndex] = useState(0);
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
 
@@ -33,10 +37,19 @@ export function TVVideosBoard() {
 
   // Cambiar al siguiente slide solo cuando el video actual termine
   const handleVideoEnded = () => {
-    setIndex((i) => (i + 1) % VIDEO_ITEMS.length);
+    setIndex((i) => (i + 1) % items.length);
   };
 
-  const current = VIDEO_ITEMS[index];
+  const current = items[index];
+
+  // Sin videos: mostrar mensaje
+  if (items.length === 0) {
+    return (
+      <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-amber-50 via-yellow-50 to-amber-100">
+        <p className="text-xl font-medium text-amber-900">No hay videos disponibles</p>
+      </div>
+    );
+  }
 
   return (
     <div className="flex h-full w-full overflow-hidden bg-gradient-to-br from-amber-50 via-yellow-50 to-amber-100 font-sans">
@@ -66,9 +79,9 @@ export function TVVideosBoard() {
             {/* Área del video - todos permanecen en DOM para caché, solo mostramos el activo */}
             <div className="relative flex-1 flex items-center justify-center px-4 pb-2 pt-2">
               <div className="relative h-full w-full overflow-hidden rounded-3xl">
-                {VIDEO_ITEMS.map((item, i) => (
+                {items.map((item, i) => (
                   <motion.div
-                    key={item.src}
+                    key={item.id}
                     initial={false}
                     animate={{ opacity: i === index ? 1 : 0 }}
                     transition={{ duration: 1.2, ease: "easeInOut" }}
@@ -98,7 +111,7 @@ export function TVVideosBoard() {
               <div className="relative flex min-h-[5rem] items-center justify-center">
                 <AnimatePresence mode="wait">
                   <motion.div
-                    key={current.src}
+                    key={current.id}
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}

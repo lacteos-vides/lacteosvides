@@ -68,7 +68,7 @@ export async function createGalleryItem(
   }
 
   revalidatePath("/admin/galeria");
-  revalidateTag("galeria-tv");
+  revalidateTag("galeria-tv", { expire: 0 });
   return { ok: true };
 }
 
@@ -100,7 +100,7 @@ export async function saveGalleryRecord(
   if (error) return { ok: false, errors: { product: error.message } };
 
   revalidatePath("/admin/galeria");
-  revalidateTag("galeria-tv");
+  revalidateTag("galeria-tv", { expire: 0 });
   return { ok: true };
 }
 
@@ -132,7 +132,7 @@ export async function updateGalleryItem(
 
   revalidatePath("/admin/galeria");
   revalidatePath(`/admin/galeria/${id}/edit`);
-  revalidateTag("galeria-tv");
+  revalidateTag("galeria-tv", { expire: 0 });
   return { ok: true };
 }
 
@@ -186,7 +186,7 @@ export async function updateGalleryItemWithUrl(
 
   revalidatePath("/admin/galeria");
   revalidatePath(`/admin/galeria/${id}/edit`);
-  revalidateTag("galeria-tv");
+  revalidateTag("galeria-tv", { expire: 0 });
   return { ok: true };
 }
 
@@ -213,7 +213,7 @@ export async function deleteGalleryItem(id: string): Promise<{ ok: boolean; erro
   if (error) return { ok: false, error: error.message };
 
   revalidatePath("/admin/galeria");
-  revalidateTag("galeria-tv");
+  revalidateTag("galeria-tv", { expire: 0 });
   return { ok: true };
 }
 
@@ -226,6 +226,6 @@ export async function reorderGalleryItems(
     if (error) return { ok: false, error: error.message };
   }
   revalidatePath("/admin/galeria");
-  revalidateTag("galeria-tv");
+  revalidateTag("galeria-tv", { expire: 0 });
   return { ok: true };
 }

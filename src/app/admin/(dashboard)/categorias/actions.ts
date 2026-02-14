@@ -1,6 +1,6 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { validateCategory, type CategoryFormErrors } from "@/lib/validations/category";
 
@@ -28,6 +28,7 @@ export async function createCategory(
 
   revalidatePath("/admin/categorias");
   revalidatePath("/admin/productos");
+  revalidateTag("productos-tv", { expire: 0 });
   return { ok: true };
 }
 
@@ -60,6 +61,7 @@ export async function updateCategory(
 
   revalidatePath("/admin/categorias");
   revalidatePath("/admin/productos");
+  revalidateTag("productos-tv", { expire: 0 });
   return { ok: true };
 }
 
@@ -85,6 +87,7 @@ export async function deleteCategory(id: string): Promise<{ ok: boolean; error?:
 
   revalidatePath("/admin/categorias");
   revalidatePath("/admin/productos");
+  revalidateTag("productos-tv", { expire: 0 });
   return { ok: true };
 }
 
@@ -93,6 +96,7 @@ export async function reorderCategory(id: string, newOrder: number): Promise<{ o
   await supabase.from("categories").update({ order_index: newOrder }).eq("id", id);
   revalidatePath("/admin/categorias");
   revalidatePath("/admin/productos");
+  revalidateTag("productos-tv", { expire: 0 });
   return { ok: true };
 }
 
@@ -106,5 +110,6 @@ export async function reorderCategories(
   }
   revalidatePath("/admin/categorias");
   revalidatePath("/admin/productos");
+  revalidateTag("productos-tv", { expire: 0 });
   return { ok: true };
 }
